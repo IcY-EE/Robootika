@@ -1,0 +1,33 @@
+AI-KABELAUD – 3D-PRINDIFAILID (Elegoo Centauri Carbon, alus 256 x 256 mm)
+=========================================================================
+Kõik mõõdud mm. Failid on juba õiges prindiasendis: aseta slaiseris alusele nii, nagu need avanevad.
+
+OSAD                                          TK   MÕÕT (mm)          MÄRKUS
+kabelaud_alus_vasak_taga / parem_taga         1+1  169 x 144 x 33     põhi, seinad, sambad, MCP hällid
+kabelaud_alus_vasak_ees / parem_ees           1+1  169 x 144 x 33     esiserv ilma seinata (tugipostid)
+kabelaud_pealmine_plaat_* (4 tk)              4    169 x 144 x 5,8    MÄNGUPIND ALL vastu alust (sile pind),
+                                                                      ribid, reed-juhikud ja LED-klambrid üleval
+kabelaud_konsool_vasak / parem                1+1  169 x 80 x 45      vasakul USB-C ja toitepesa ava
+kabelaud_kaas_vasak / parem                   1+1  169 x 80 x 13,8    pealispind all; paremal LCD aken ja nupuaugud
+kabelaud_nupud_12tk_D28                       2x   Ø28 x 7            prindi 2 korda kahes värvis (12 + 12)
+kabelaud_kroonid_8tk                          1    Ø31 x 6            tammi kroonid, pannakse nupu peale
+kabelaud_nupukatted_3tk                       1    Ø12 / Ø15 x 7      nupukatted (Uus mäng, Vihje, AI)
+kabelaud_tumedad_ruudud_32tk                  1    33 x 33 x 0,6      valikuline: kontrastvärvi ruudud, liimitakse
+                                                                      tumedatele ruutudele (nupud on ainult seal)
+
+SOOVITUSLIKUD SEADED (PLA)
+- kiht 0,2 mm; seinad 3; ülemine/alumine kiht 4; täide 15 % (nupud 30 %)
+- tugesid pole vaja. Konsooli USB/toiteava ja kaane LCD aken on sillad.
+- pealmine plaat: 1 mm mängupind = 5 kihti. Ära muuda seda paksemaks, muidu ei tunne reed-lüliti magnetit.
+- nupud: peatada printimine 2,2 mm kõrgusel (PAUSE at layer), panna magnet pessa, jätkata
+  VÕI liimida magnet pärast printimist pessa.
+
+KOKKUPANEK
+- Laua veerandid ja konsooli pooled kinnitatakse liiteklotside kaudu: M3 x 16 kruvi + mutter (kokku 16 tk).
+- Kaas: 8 x M3 x 12 peitpeakruvi konsooli puksidesse.
+- LCD: 4 x M2,5 x 6 isekeermestav kruvi kaane alla. Nupuplaat: 2 x M2,5 x 6.
+- MCP23017 moodulid pannakse hällidesse (piikribad üleval), Arduino korpus konsooli pessa.
+- Pealmine plaat asetatakse seinte peale; asetusäär hoiab seda paigal. Vajadusel kahepoolne teip.
+
+PRINDIAEG (hinnang Centauri Carbon, standardkiirus): kokku ~15–20 h, filamenti ~0,6–0,8 kg.
+Mõõdud ja asukohad vastavad 3D-koostemudelile ja 1:1 koostejoonisele.
