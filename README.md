@@ -188,7 +188,7 @@ kui nupu loendur muutus -> uus mäng / vihje / AI sisse-välja
 - **Laud:** 338 × 288 × 34 mm, mänguväli 268 × 268 mm, ruut 33,5 mm. Külgedel 30 mm pöördetaskud LED-riba aasade jaoks.
 - **Kihid laua sees (alt üles):** põhi 0–2 mm · MCP23017 hällid · juhtmed ~27 mm · LED-riba 29–31 mm · reed-lülitid 31–33 mm · pealmine plaat 33–34 mm (1 mm mängupind, magnet sulgeb reed-lüliti läbi selle).
 - **Pealmise plaadi all:** ribid ridade vahel (toetuvad sammastele), reed-lülitite juhikud (klaasi üks ots ruudu keskel) ja LED-riba klambrid heledate ruutude all.
-- **LED-avad:** iga tumeda ruudu keskel on Ø 3 mm ava otse LED-i kohal (ka tumedates kontrastruutudes), nii et valgus paistab läbi. Nupp katab ava, kui see ruudul seisab.
+- **LED-avad:** iga tumeda ruudu keskel on Ø 4 mm ava otse LED-i kohal (ka tumedates kontrastruutudes), nii et valgus paistab läbi. Nupp katab ava, kui see ruudul seisab.
 - **Konsool:** 338 × 80 × 48 mm, laua ees. Laua ja konsooli vahel vaheseina pole; pealmise plaadi esiserv toetub tugipostidele. Vasakul seinas USB-C ja toitepesa ava, paremal kaanes LCD aken ja 3 nuppu.
 - **Liited:** veerandid ja konsooli pooled kinnitatakse liiteklotside kaudu M3 kruvidega; liitekohad on ruutude servadel.
 

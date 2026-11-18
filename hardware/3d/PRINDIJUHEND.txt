@@ -7,13 +7,13 @@ kabelaud_alus_vasak_taga / parem_taga         1+1  169 x 144 x 33     põhi, sei
 kabelaud_alus_vasak_ees / parem_ees           1+1  169 x 144 x 33     esiserv ilma seinata (tugipostid)
 kabelaud_pealmine_plaat_* (4 tk)              4    169 x 144 x 5,8    MÄNGUPIND ALL vastu alust (sile pind),
                                                                       ribid, reed-juhikud ja LED-klambrid üleval;
-                                                                      igal tumedal ruudul Ø 3 mm LED-ava
+                                                                      igal tumedal ruudul Ø 4 mm LED-ava
 kabelaud_konsool_vasak / parem                1+1  169 x 80 x 45      vasakul USB-C ja toitepesa ava
 kabelaud_kaas_vasak / parem                   1+1  169 x 80 x 13,8    pealispind all; paremal LCD aken ja nupuaugud
 kabelaud_nupud_12tk_D28                       2x   Ø28 x 7            prindi 2 korda kahes värvis (12 + 12)
 kabelaud_kroonid_8tk                          1    Ø31 x 6            tammi kroonid, pannakse nupu peale
 kabelaud_nupukatted_3tk                       1    Ø12 / Ø15 x 7      nupukatted (Uus mäng, Vihje, AI)
-kabelaud_tumedad_ruudud_32tk                  1    33 x 33 x 0,6      valikuline: kontrastvärvi ruudud (Ø 3 mm LED-avaga),
+kabelaud_tumedad_ruudud_32tk                  1    33 x 33 x 0,6      valikuline: kontrastvärvi ruudud (Ø 4 mm LED-avaga),
                                                                       liimitakse tumedatele ruutudele, avad kohakuti
 
 TERVE LAUD ÜHES FAILIS (kaust terve/)
@@ -23,7 +23,7 @@ kabelaud_terve_laud_1-1.stl                   1    338 x 368 x 48     kõik osad
 kabelaud_naidismudel_1-2.stl                  1    169 x 184 x 25     täis näidismudel mõõtkavas 1:2, prindib ühes
                                                                       tükis ilma tugedeta (elektroonikata)
 
-LED-AVAD: Ø 3 mm ava on iga tumeda ruudu keskel otse LED-i kohal. Nupp katab ava, kui ta ruudul on.
+LED-AVAD: Ø 4 mm ava on iga tumeda ruudu keskel otse LED-i kohal. Nupp katab ava, kui ta ruudul on.
 Pehmema valguse jaoks võib avasse liimida tüki valget/läbipaistvat 0,4 mm prinditud kilet.
 
 SOOVITUSLIKUD SEADED (PLA)
