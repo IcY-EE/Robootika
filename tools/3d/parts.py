@@ -30,7 +30,7 @@ class Part:
 def ring(p,x0,x1,z0,z1,t,y0,y1):
     p.box(x0-t,x1+t,y0,y1,z0-t,z0); p.box(x0-t,x1+t,y0,y1,z1,z1+t); p.box(x0-t,x0,y0,y1,z0,z1); p.box(x1,x1+t,y0,y1,z0,z1)
 M3=1.7
-LED_R=3.5   # LED-ava raadius pealmises plaadis ja tumedates ruutudes
+LED_R=1.5   # LED-ava raadius (Ø 3 mm) pealmises plaadis ja tumedates ruutudes
 # ---------------- LAUD (põhi) ----------------
 def board_base(p):
     p.box(-OX,OX,0,2,-OUT,OUT)                              # põhi
