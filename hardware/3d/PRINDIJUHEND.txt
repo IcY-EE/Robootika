@@ -16,12 +16,10 @@ kabelaud_nupukatted_3tk                       1    Ø12 / Ø15 x 7      nupukatt
 kabelaud_tumedad_ruudud_32tk                  1    33 x 33 x 0,6      valikuline: kontrastvärvi ruudud (Ø 4 mm LED-avaga),
                                                                       liimitakse tumedatele ruutudele, avad kohakuti
 
-TERVE LAUD ÜHES FAILIS (kaust terve/)
-kabelaud_terve_laud_1-1.stl                   1    338 x 368 x 48     kõik osad kokkupandult ühes failis (1:1).
-                                                                      EI MAHU 256 mm alusele - vaatamiseks või suure
-                                                                      printeri jaoks. Ehitamiseks kasuta tükke.
+NÄIDISMUDEL (kaust terve/)
 kabelaud_naidismudel_1-2.stl                  1    169 x 184 x 25     täis näidismudel mõõtkavas 1:2, prindib ühes
-                                                                      tükis ilma tugedeta (elektroonikata)
+                                                                      tükis ilma tugedeta. AINULT NÄITAMISEKS:
+                                                                      elektroonika sinna sisse ei mahu.
 
 LED-AVAD: Ø 4 mm ava on iga tumeda ruudu keskel otse LED-i kohal. Nupp katab ava, kui ta ruudul on.
 Pehmema valguse jaoks võib avasse liimida tüki valget/läbipaistvat 0,4 mm prinditud kilet.

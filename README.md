@@ -100,8 +100,7 @@ Kõik 3D-prinditavad osad (STL) on kaustas [`hardware/3d/`](hardware/3d/) ja nee
 | Nupud (12 tk failis, prinditakse 2 värvis) | 24 | Ø 28 × 7 |
 | Tammi kroonid / nupukatted / tumedad ruudud | 8 / 3 / 32 | – |
 | Proovitükid (ruut + nupp anduri testimiseks) | – | [`hardware/3d/proovitukid/`](hardware/3d/proovitukid/) |
-| **Terve laud ühes failis (1:1)** – vaatamiseks / suure printeri jaoks | 1 | 338 × 368 × 48 · [`hardware/3d/terve/`](hardware/3d/terve/) |
-| Näidismudel 1:2, prindib ühes tükis | 1 | 169 × 184 × 25 |
+| Näidismudel 1:2, prindib ühes tükis (ainult näitamiseks, elektroonikata) | 1 | 169 × 184 × 25 · [`hardware/3d/terve/`](hardware/3d/terve/) |
 
 ## 6. Ühendusskeem
 
@@ -207,9 +206,9 @@ Samm-sammuline kokkupanekumudel päris STL-failidega (7 sammu, osad saab liuguri
 6. **Kaas:** LCD (4 × M2,5), nupukatted ja nupuplaat (2 × M2,5), kaas konsooli külge (8 × M3 × 12).
 7. **Nupud ja kroonid.**
 
-| Terve laud ühes failis (1:1) | Näidismudel 1:2 (prindib ühes tükis) |
-|---|---|
-| ![](media/terve-laud-1-1.png) | ![](media/naidismudel-1-2.png) |
+**Näidismudel 1:2** (prindib ühes tükis, ainult näitamiseks):
+
+![](media/naidismudel-1-2.png)
 
 Interaktiivne 3D-koostemudel kõigi osade ja juhtmetega: [`docs/3d-koostemudel.html`](docs/3d-koostemudel.html) (ava brauseris; klõpsa juhtmel, et näha, kust kuhu see läheb). Mudeli, STL-failide ja joonise generaator on kaustas [`tools/3d/`](tools/3d/).
 
@@ -221,7 +220,7 @@ hardware/wiring-diagram.png/.svg   ühendusskeem
 hardware/ruutude-kaart.png/.svg    ruutude, andurite ja LED-ide numeratsioon
 hardware/koostejoonis-1-1-A4.pdf   1:1 koostejoonis (4 A4 lehte + kaaneleht)
 hardware/3d/                       16 STL-faili (tükid) + PRINDIJUHEND.txt
-hardware/3d/terve/                 terve laud ühes failis (1:1) ja näidismudel 1:2
+hardware/3d/terve/                 näidismudel 1:2 (ühes tükis, ainult näitamiseks)
 hardware/3d/proovitukid/           proovitükid anduri ja magneti testimiseks
 docs/3d-koostemudel.html           interaktiivne 3D-koostemudel (elektroonika ja juhtmed)
 docs/kokkupanek/                   samm-sammuline kokkupanek päris STL-failidega
