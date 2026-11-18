@@ -86,7 +86,8 @@ Mõõdud on mõõdetud meie päris osadelt.
 | Jaotusplaat (jooteplaat) | 1 | 40 × 30 mm, 5V / GND / SDA / SCL siinid |
 | Nupuplaat (jooteplaat) | 1 | 60 × 20 mm |
 | USB-C telefonilaadija | 1 | 5 V, ≥ 2 A (ainus toiteallikas) |
-| Kruvid | – | 16 × M3 × 16 + mutrid (liited), 8 × M3 × 12 peitpea (kaas), 6 × M2,5 × 6 (LCD, nupuplaat) |
+| Liim | – | sekundiliim (geel) või 2-komponentne epoksü – laua ja konsooli osade liited |
+| Kruvid | – | 8 × M3 × 12 peitpea (kaas, eemaldatav), 6 × M2,5 × 6 (LCD, nupuplaat) |
 | 3D-prinditud osad | 16 faili | vt [hardware/3d/PRINDIJUHEND.txt](hardware/3d/PRINDIJUHEND.txt) |
 
 Kõik 3D-prinditavad osad (STL) on kaustas [`hardware/3d/`](hardware/3d/) ja need on tehtud ise. Prinditud Elegoo Centauri Carboniga (alus 256 × 256 mm); osad mahuvad ka Prusa MK3 alusele (250 × 210 mm).
@@ -99,6 +100,7 @@ Kõik 3D-prinditavad osad (STL) on kaustas [`hardware/3d/`](hardware/3d/) ja nee
 | Konsooli kaas (pooled) | 2 | 169 × 80 × 13,8 |
 | Nupud (12 tk failis, prinditakse 2 värvis) | 24 | Ø 28 × 7 |
 | Tammi kroonid / nupukatted / tumedad ruudud | 8 / 3 / 32 | – |
+| Liitetihvtid (joondamiseks liimimisel) | 16 | Ø 3,2 × 17 |
 | Proovitükid (ruut + nupp anduri testimiseks) | – | [`hardware/3d/proovitukid/`](hardware/3d/proovitukid/) |
 | Näidismudel 1:2, prindib ühes tükis (ainult näitamiseks, elektroonikata) | 1 | 169 × 184 × 25 · [`hardware/3d/terve/`](hardware/3d/terve/) |
 
@@ -189,7 +191,7 @@ kui nupu loendur muutus -> uus mäng / vihje / AI sisse-välja
 - **Pealmise plaadi all:** ribid ridade vahel (toetuvad sammastele), reed-lülitite juhikud (klaasi üks ots ruudu keskel) ja LED-riba klambrid heledate ruutude all.
 - **LED-avad:** iga tumeda ruudu keskel on Ø 4 mm ava otse LED-i kohal (ka tumedates kontrastruutudes), nii et valgus paistab läbi. Nupp katab ava, kui see ruudul seisab.
 - **Konsool:** 338 × 80 × 48 mm, laua ees. Laua ja konsooli vahel vaheseina pole; pealmise plaadi esiserv toetub tugipostidele. Vasakul seinas USB-C ja toitepesa ava, paremal kaanes LCD aken ja 3 nuppu.
-- **Liited:** veerandid ja konsooli pooled kinnitatakse liiteklotside kaudu M3 kruvidega; liitekohad on ruutude servadel.
+- **Liited:** laua veerandid ja konsooli pooled **liimitakse** kokku. Liiteklotside augud koos prinditud tihvtidega joondavad osad täpselt; liitekohad on ruutude servadel. Pealmine plaat ja kaas jäävad eemaldatavaks (kaas 8 × M3 × 12 kruviga), et elektroonikale pääseks ligi.
 
 ### Kuidas osad kokku lähevad
 
@@ -198,9 +200,9 @@ kui nupu loendur muutus -> uus mäng / vihje / AI sisse-välja
 
 Samm-sammuline kokkupanekumudel päris STL-failidega (7 sammu, osad saab liuguriga lahku tõmmata): [`docs/kokkupanek/index.html`](docs/kokkupanek/index.html). Ava see kohaliku veebiserveri kaudu (nt `python3 -m http.server` kaustas `docs/kokkupanek`), sest brauser ei luba failist otse andmeid laadida.
 
-1. **Laua alus:** 4 veerandit kokku, 8 × M3 × 16 kruvi + mutter.
+1. **Laua alus:** 4 veerandit liimiga kokku, tihvtid liiteklotside aukudesse joondamiseks.
 2. **Elektroonika laua sisse:** MCP23017 moodulid hällidesse, juhtmed.
-3. **Konsool:** 2 poolt kokku ja laua külge (6 × M3), Arduino pessa, jaotusplaat.
+3. **Konsool:** 2 poolt liimiga kokku ja laua külge (tihvtidega), Arduino pessa, jaotusplaat.
 4. **Pealmine plaat:** reed-lülitid juhikutesse, LED-riba klambritesse, veerandid seinte peale.
 5. **Tumedad ruudud** (valikuline): liimida LED-avad kohakuti.
 6. **Kaas:** LCD (4 × M2,5), nupukatted ja nupuplaat (2 × M2,5), kaas konsooli külge (8 × M3 × 12).
@@ -219,7 +221,7 @@ README.md                          see dokumentatsioon
 hardware/wiring-diagram.png/.svg   ühendusskeem
 hardware/ruutude-kaart.png/.svg    ruutude, andurite ja LED-ide numeratsioon
 hardware/koostejoonis-1-1-A4.pdf   1:1 koostejoonis (4 A4 lehte + kaaneleht)
-hardware/3d/                       16 STL-faili (tükid) + PRINDIJUHEND.txt
+hardware/3d/                       17 STL-faili (tükid + liitetihvtid) + PRINDIJUHEND.txt
 hardware/3d/terve/                 näidismudel 1:2 (ühes tükis, ainult näitamiseks)
 hardware/3d/proovitukid/           proovitükid anduri ja magneti testimiseks
 docs/3d-koostemudel.html           interaktiivne 3D-koostemudel (elektroonika ja juhtmed)

@@ -29,7 +29,7 @@ label{font-size:13px;color:var(--muted)}input[type=range]{flex:1;min-width:120px
 <div class="row">
 <label for="ex">Kokku</label><input type="range" id="ex" min="0" max="100" value="60"><label for="ex">Lahti</label>
 <button class="b" id="rt">Pööra</button><button class="b" data-v="iso">3D</button><button class="b" data-v="top">Pealt</button><button class="b" data-v="side">Küljelt</button>
-<label><input type="checkbox" id="el" checked> Elektroonika</label><label><input type="checkbox" id="bo" checked> Kruvid</label>
+<label><input type="checkbox" id="el" checked> Elektroonika</label><label><input type="checkbox" id="bo" checked> Tihvtid ja kruvid</label>
 </div></div>
 <div class="card"><div class="steps" id="steps"></div><div id="desc"></div>
 <div class="row"><button class="b" id="pv">← Eelmine</button><button class="b" id="nx">Järgmine →</button></div></div>
@@ -70,10 +70,10 @@ E.pos.BXS.forEach(x=>{const c=add(gCap,0x378ADD,'Nupukate Ø 12 mm (flanš kaane
 const BO=new THREE.Group();S.add(BO);
 function bolt(a,b,r,step,off,name){const v=new THREE.Vector3(...b).sub(new THREE.Vector3(...a));const len=v.length();const g=new THREE.CylinderGeometry(r,r,len,12);const m=new THREE.Mesh(g,mat(0x5F5E5A,{metalness:0.5,roughness:0.35}));
  m.position.set((a[0]+b[0])/2,(a[1]+b[1])/2,(a[2]+b[2])/2);m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),v.clone().normalize());m.userData={n:name,step,off:new THREE.Vector3(...off),base:m.position.clone(),bolt:true};BO.add(m);parts.push(m);pick.push(m);}
-[-120,-50,50,120].forEach(z=>bolt([-9,7,z],[9,7,z],1.5,1,[0,0,0],'M3 × 16 kruvi + mutter (laua veerandite liide)'));
-[-150,-50,50,150].forEach(x=>bolt([x,7,-9],[x,7,9],1.5,1,[0,0,0],'M3 × 16 kruvi + mutter (laua veerandite liide)'));
-[-150,-20,45,110].forEach(x=>bolt([x,7,D.OUT-9],[x,7,D.OUT+9],1.5,3,[0,0,35],'M3 × 16 kruvi + mutter (konsool lauale)'));
-[160,200].forEach(z=>bolt([-9,7,z],[9,7,z],1.5,3,[0,0,70],'M3 × 16 kruvi + mutter (konsooli pooled)'));
+[-120,-50,50,120].forEach(z=>bolt([-9,7,z],[9,7,z],1.5,1,[0,0,0],'Liitetihvt Ø 3,2 × 17 + liim (laua veerandite liide)'));
+[-150,-50,50,150].forEach(x=>bolt([x,7,-9],[x,7,9],1.5,1,[0,0,0],'Liitetihvt Ø 3,2 × 17 + liim (laua veerandite liide)'));
+[-150,-20,45,110].forEach(x=>bolt([x,7,D.OUT-9],[x,7,D.OUT+9],1.5,3,[0,0,35],'Liitetihvt Ø 3,2 × 17 + liim (konsool lauale)'));
+[160,200].forEach(z=>bolt([-9,7,z],[9,7,z],1.5,3,[0,0,70],'Liitetihvt Ø 3,2 × 17 + liim (konsooli pooled)'));
 [[-155,150],[-75,214],[-12,150],[-12,214],[12,150],[12,214],[155,150],[155,214]].forEach(([x,z])=>bolt([x,36,z],[x,49,z],1.5,6,[Math.sign(x)*30,150,70],'M3 × 12 peitpeakruvi (kaas konsooli külge)'));
 // --- elektroonika
 const EL=new THREE.Group();S.add(EL);
@@ -95,9 +95,9 @@ WG.userData={n:'juhtmed',step:2,off:new THREE.Vector3(0,0,0),base:new THREE.Vect
 document.getElementById('load').remove();
 // --- sammud
 const STEPS=[
- ['Laua alus','<ul><li>Pane 4 alusveerandit kokku nii, et liiteklotsid jäävad vastakuti.</li><li>Kinnita iga liiteklotside paar <b>M3 × 16 kruvi ja mutriga</b> (8 tk).</li><li>Liitekohad jäävad täpselt ruutude servadele.</li></ul>'],
+ ['Laua alus','<ul><li>Pane 4 alusveerandit kokku nii, et liiteklotsid jäävad vastakuti.</li><li>Kanna liim klotside ja servade puutepindadele, pista <b>liitetihvt</b> läbi vastakuti klotside aukude (8 tk) ja suru kokku.</li><li>Kasuta sekundiliimi (geel) või epoksüt; liimi tasasel laual.</li><li>Liitekohad jäävad täpselt ruutude servadele.</li></ul>'],
  ['Elektroonika laua sisse','<ul><li>Pane mõlemad MCP23017 moodulid oma hälli (piikribad üleval). #1 on ridade 2–3 all, #2 ridade 6–7 all.</li><li>Veda juhtmed: reed-lülitite signaalid kogunevad vasakusse serva ja lähevad sealt MCP-ni, GND jookseb igas reas eraldi juhtmena.</li></ul>'],
- ['Konsool','<ul><li>Pane 2 konsoolipoolt kokku (2 × M3) ja kinnita laua esiserva külge (4 × M3).</li><li>Aseta Arduino korpusega vasakusse pessa nii, et USB-C ja toitepesa jäävad seina avade kohale.</li><li>Pane jaotusplaat tugijalgadele ja ühenda MCP-de, LED-riba ja reed-lülitite juhtmed.</li></ul>'],
+ ['Konsool','<ul><li>Liimi 2 konsoolipoolt kokku (2 tihvti) ja liimi konsool laua esiserva külge (4 tihvti).</li><li>Aseta Arduino korpusega vasakusse pessa nii, et USB-C ja toitepesa jäävad seina avade kohale.</li><li>Pane jaotusplaat tugijalgadele ja ühenda MCP-de, LED-riba ja reed-lülitite juhtmed.</li></ul>'],
  ['Pealmine plaat','<ul><li>Pööra plaadi veerandid tagurpidi ja pane igasse juhikusse reed-lüliti (klaasi ots ruudu keskel).</li><li>Klõpsa LED-riba heledate ruutude all olevatesse klambritesse; rea lõpus jääb aas pöördetaskusse.</li><li>Aseta 4 veerandit laua seinte peale, asetusäär hoiab neid paigal.</li></ul>'],
  ['Tumedad ruudud','<ul><li>Valikuline: liimi 32 kontrastvärvi ruutu tumedatele ruutudele.</li><li>Nupud on ainult tumedatel ruutudel, seega on kõik nupud ühel kõrgusel.</li></ul>'],
  ['Kaas, LCD ja nupud','<ul><li>Lükka LCD raam kaane aknasse ja kinnita 4 × M2,5 kruviga.</li><li>Pane 3 nupukatet aukudesse ja kruvi nupuplaat (2 × M2,5) nende alla.</li><li>Kinnita mõlemad kaanepooled 8 × M3 × 12 peitpeakruviga konsooli puksidesse.</li></ul>'],

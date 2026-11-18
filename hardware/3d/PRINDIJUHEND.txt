@@ -13,13 +13,16 @@ kabelaud_kaas_vasak / parem                   1+1  169 x 80 x 13,8    pealispind
 kabelaud_nupud_12tk_D28                       2x   Ø28 x 7            prindi 2 korda kahes värvis (12 + 12)
 kabelaud_kroonid_8tk                          1    Ø31 x 6            tammi kroonid, pannakse nupu peale
 kabelaud_nupukatted_3tk                       1    Ø12 / Ø15 x 7      nupukatted (Uus mäng, Vihje, AI)
+kabelaud_liitetihvtid_16tk                    1    Ø 3,2 x 17         liitetihvtid (14 + 2 varu), prinditakse pikali
 kabelaud_tumedad_ruudud_32tk                  1    33 x 33 x 0,6      valikuline: kontrastvärvi ruudud (Ø 4 mm LED-avaga),
                                                                       liimitakse tumedatele ruutudele, avad kohakuti
 
-NÄIDISMUDEL (kaust terve/)
+TERVE LAUD ÜHES FAILIS (kaust terve/)
+kabelaud_terve_laud_1-1.stl                   1    338 x 368 x 48     kõik osad kokkupandult ühes failis (1:1).
+                                                                      EI MAHU 256 mm alusele - vaatamiseks või suure
+                                                                      printeri jaoks. Ehitamiseks kasuta tükke.
 kabelaud_naidismudel_1-2.stl                  1    169 x 184 x 25     täis näidismudel mõõtkavas 1:2, prindib ühes
-                                                                      tükis ilma tugedeta. AINULT NÄITAMISEKS:
-                                                                      elektroonika sinna sisse ei mahu.
+                                                                      tükis ilma tugedeta (elektroonikata)
 
 LED-AVAD: Ø 4 mm ava on iga tumeda ruudu keskel otse LED-i kohal. Nupp katab ava, kui ta ruudul on.
 Pehmema valguse jaoks võib avasse liimida tüki valget/läbipaistvat 0,4 mm prinditud kilet.
@@ -31,12 +34,18 @@ SOOVITUSLIKUD SEADED (PLA)
 - nupud: peatada printimine 2,2 mm kõrgusel (PAUSE at layer), panna magnet pessa, jätkata
   VÕI liimida magnet pärast printimist pessa.
 
-KOKKUPANEK
-- Laua veerandid ja konsooli pooled kinnitatakse liiteklotside kaudu: M3 x 16 kruvi + mutter (kokku 16 tk).
-- Kaas: 8 x M3 x 12 peitpeakruvi konsooli puksidesse.
+KOKKUPANEK (LIIMIGA)
+- Laua veerandid ja konsooli pooled liimitakse kokku. Liiteklotsides olevad Ø 3,4 mm augud on
+  joondamiseks: pista liitetihvt (Ø 3,2 x 17) läbi vastakuti klotside, siis jäävad osad täpselt
+  kohakuti. Kokku 14 liidet (laud 8, konsool lauale 4, konsooli pooled 2).
+- Liim: PLA jaoks sobib sekundiliim (tsüanoakrülaat) geeliga või 2-komponentne epoksü.
+  Kanna liim klotside puutepindadele, seinte ja põhja servadele ning tihvtile; suru kokku ja hoia
+  ~1 min (sekundiliim) või kinnita klambritega, kuni epoksü kuivab.
+- Liimi tasasel laual tagurpidi pööramata, et pealmine plaat jääks hiljem sirgelt peale.
+- EI LIIMITA: pealmine plaat (asetusäär hoiab paigal, saab elektroonika jaoks üles tõsta)
+  ja kaas (8 x M3 x 12 peitpeakruvi puksidesse), et elektroonikale pääseks ligi.
 - LCD: 4 x M2,5 x 6 isekeermestav kruvi kaane alla. Nupuplaat: 2 x M2,5 x 6.
-- MCP23017 moodulid pannakse hällidesse (piikribad üleval), Arduino korpus konsooli pessa.
-- Pealmine plaat asetatakse seinte peale; asetusäär hoiab seda paigal. Vajadusel kahepoolne teip.
+- MCP23017 moodulid hällidesse (piikribad üleval), Arduino korpus konsooli pessa.
 
 PRINDIAEG (hinnang Centauri Carbon, standardkiirus): kokku ~15–20 h, filamenti ~0,6–0,8 kg.
 Mõõdud ja asukohad vastavad 3D-koostemudelile ja 1:1 koostejoonisele.
