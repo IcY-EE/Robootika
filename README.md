@@ -192,6 +192,25 @@ kui nupu loendur muutus -> uus mäng / vihje / AI sisse-välja
 - **Konsool:** 338 × 80 × 48 mm, laua ees. Laua ja konsooli vahel vaheseina pole; pealmise plaadi esiserv toetub tugipostidele. Vasakul seinas USB-C ja toitepesa ava, paremal kaanes LCD aken ja 3 nuppu.
 - **Liited:** veerandid ja konsooli pooled kinnitatakse liiteklotside kaudu M3 kruvidega; liitekohad on ruutude servadel.
 
+### Kuidas osad kokku lähevad
+
+![Laua alus ja pealmine plaat](media/3d-osad-1-laud.png)
+![Konsool, kaas ja väikesed osad](media/3d-osad-2-konsool.png)
+
+Samm-sammuline kokkupanekumudel päris STL-failidega (7 sammu, osad saab liuguriga lahku tõmmata): [`docs/kokkupanek/index.html`](docs/kokkupanek/index.html). Ava see kohaliku veebiserveri kaudu (nt `python3 -m http.server` kaustas `docs/kokkupanek`), sest brauser ei luba failist otse andmeid laadida.
+
+1. **Laua alus:** 4 veerandit kokku, 8 × M3 × 16 kruvi + mutter.
+2. **Elektroonika laua sisse:** MCP23017 moodulid hällidesse, juhtmed.
+3. **Konsool:** 2 poolt kokku ja laua külge (6 × M3), Arduino pessa, jaotusplaat.
+4. **Pealmine plaat:** reed-lülitid juhikutesse, LED-riba klambritesse, veerandid seinte peale.
+5. **Tumedad ruudud** (valikuline): liimida LED-avad kohakuti.
+6. **Kaas:** LCD (4 × M2,5), nupukatted ja nupuplaat (2 × M2,5), kaas konsooli külge (8 × M3 × 12).
+7. **Nupud ja kroonid.**
+
+| Terve laud ühes failis (1:1) | Näidismudel 1:2 (prindib ühes tükis) |
+|---|---|
+| ![](media/terve-laud-1-1.png) | ![](media/naidismudel-1-2.png) |
+
 Interaktiivne 3D-koostemudel kõigi osade ja juhtmetega: [`docs/3d-koostemudel.html`](docs/3d-koostemudel.html) (ava brauseris; klõpsa juhtmel, et näha, kust kuhu see läheb). Mudeli, STL-failide ja joonise generaator on kaustas [`tools/3d/`](tools/3d/).
 
 ## Repo struktuur
@@ -204,7 +223,8 @@ hardware/koostejoonis-1-1-A4.pdf   1:1 koostejoonis (4 A4 lehte + kaaneleht)
 hardware/3d/                       16 STL-faili (tükid) + PRINDIJUHEND.txt
 hardware/3d/terve/                 terve laud ühes failis (1:1) ja näidismudel 1:2
 hardware/3d/proovitukid/           proovitükid anduri ja magneti testimiseks
-docs/3d-koostemudel.html           interaktiivne 3D-koostemudel
+docs/3d-koostemudel.html           interaktiivne 3D-koostemudel (elektroonika ja juhtmed)
+docs/kokkupanek/                   samm-sammuline kokkupanek päris STL-failidega
 docs/uhendusskeem.html             interaktiivne ühendusskeem koos ehitusjuhistega
 tools/3d/                          3D-failide generaator (geom.py, parts.py, csg.cpp)
 media/                             pildid

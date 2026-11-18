@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="et"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI-kabelaud kokkupanek</title>
+<style>
+:root{--bg:#f6f5f1;--card:#fff;--text:#2c2c2a;--muted:#6b6a65;--line:#e3e1d9;--acc:#185FA5}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1d1d1b;--card:#262624;--text:#ecebe6;--muted:#a3a29c;--line:#3a3a37;--acc:#85B7EB}}
+:root[data-theme="dark"]{--bg:#1d1d1b;--card:#262624;--text:#ecebe6;--muted:#a3a29c;--line:#3a3a37;--acc:#85B7EB}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1180px;margin:0 auto;padding:16px}h1{font-size:20px;margin:0 0 4px}.sub{color:var(--muted);font-size:14px;margin:0 0 12px}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:14px}@media(max-width:860px){.grid{grid-template-columns:minmax(0,1fr)}}
+#w{position:relative;width:100%;height:min(72vh,640px);border-radius:12px;background:#ecebe6;border:1px solid var(--line);overflow:hidden;cursor:grab;touch-action:none}
+#info{position:absolute;left:10px;bottom:10px;background:rgba(255,255,255,.93);color:#2c2c2a;border-radius:8px;padding:6px 10px;font-size:13px;pointer-events:none;max-width:calc(100% - 20px)}
+#load{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#5F5E5A;font-size:15px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.steps{display:flex;flex-direction:column;gap:6px}
+.st{display:flex;gap:10px;text-align:left;font:inherit;font-size:14px;padding:9px 10px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--text);cursor:pointer}
+.st b{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:11px;background:var(--line);font-size:12px}
+.st.on{border-color:var(--acc)}.st.on b{background:var(--acc);color:#fff}
+#desc{font-size:14px;line-height:1.55;margin-top:10px}#desc ul{margin:6px 0;padding-left:18px}#desc li{margin:3px 0}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;align-items:center}
+button.b{font:inherit;font-size:13px;padding:7px 11px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--text);cursor:pointer}
+label{font-size:13px;color:var(--muted)}input[type=range]{flex:1;min-width:120px}
+</style></head><body><main>
+<h1>AI-kabelaud – kuidas 3D-osad kokku lähevad</h1>
+<p class="sub">Päris STL-failid oma kohal. Vali samm, et näha, mis järjekorras osad kokku pannakse; liuguriga saab osad lahku tõmmata. Lohista pööramiseks, keri või näpista suumimiseks, klõpsa osal nime nägemiseks.</p>
+<div class="grid">
+<div>
+<div id="w"><div id="load">Laadin 3D-osi…</div><div id="info">Klõpsa osal.</div></div>
+<div class="row">
+<label for="ex">Kokku</label><input type="range" id="ex" min="0" max="100" value="60"><label for="ex">Lahti</label>
+<button class="b" id="rt">Pööra</button><button class="b" data-v="iso">3D</button><button class="b" data-v="top">Pealt</button><button class="b" data-v="side">Küljelt</button>
+<label><input type="checkbox" id="el" checked> Elektroonika</label><label><input type="checkbox" id="bo" checked> Kruvid</label>
+</div></div>
+<div class="card"><div class="steps" id="steps"></div><div id="desc"></div>
+<div class="row"><button class="b" id="pv">← Eelmine</button><button class="b" id="nx">Järgmine →</button></div></div>
+</div></main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(async function(){
+const W=document.getElementById('w'),INFO=document.getElementById('info');
+let R;try{R=new THREE.WebGLRenderer({antialias:true});}catch(e){document.getElementById('load').textContent='See brauser ei toeta WebGL-i.';return;}
+R.setClearColor(0xecebe6);R.setPixelRatio(Math.min(devicePixelRatio,2));const sz=()=>R.setSize(W.clientWidth,W.clientHeight);sz();W.insertBefore(R.domElement,INFO);
+const S=new THREE.Scene(),C=new THREE.PerspectiveCamera(34,W.clientWidth/W.clientHeight,1,8000);
+S.add(new THREE.AmbientLight(0xffffff,0.55));const L=new THREE.DirectionalLight(0xffffff,0.75);L.position.set(300,700,450);S.add(L);const L2=new THREE.DirectionalLight(0xffffff,0.3);L2.position.set(-400,250,-300);S.add(L2);
+const E=await (await fetch('elec.json')).json();const D=E.dims;const SB=await (await fetch('stl.json')).json();
+async function stl(name,map){const bs=atob(SB[name]);const u8=new Uint8Array(bs.length);for(let i=0;i<bs.length;i++)u8[i]=bs.charCodeAt(i);const b=u8.buffer;const dv=new DataView(b);const n=dv.getUint32(80,true);const p=new Float32Array(n*9);
+ for(let i=0;i<n;i++)for(let k=0;k<3;k++){const o=84+i*50+12+k*12;const X=dv.getFloat32(o,true),Y=dv.getFloat32(o+4,true),Z=dv.getFloat32(o+8,true);const v=map(X,Y,Z);p.set(v,i*9+k*3);}
+ const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(p,3));g.computeVertexNormals();return g;}
+const UP=(X,Y,Z)=>[X,Z,-Y], FL=f=>(X,Y,Z)=>[X,f-Z,Y];
+const mat=(c,o)=>new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:0.65,side:THREE.DoubleSide},o||{}));
+const parts=[];const pick=[];
+function add(g,col,name,step,off,par){const m=new THREE.Mesh(g,mat(col));m.userData={n:name,step,off:new THREE.Vector3(...off),base:new THREE.Vector3(),col};(par||S).add(m);parts.push(m);pick.push(m);return m;}
+const Q=[['vasak_taga',-1,-1],['parem_taga',1,-1],['vasak_ees',-1,1],['parem_ees',1,1]];
+const H=[['vasak',-1],['parem',1]];
+const lab={vasak_taga:'vasak taga',parem_taga:'parem taga',vasak_ees:'vasak ees',parem_ees:'parem ees',vasak:'vasak',parem:'parem'};
+await Promise.all([
+ ...Q.map(async([k,sx,sz])=>add(await stl('kabelaud_alus_'+k,UP),0xB4B2A9,'Laua alus – '+lab[k]+' (169 × 144 × 33 mm)',1,[sx*30,0,sz*30])),
+ ...H.map(async([k,sx])=>add(await stl('kabelaud_konsool_'+k,UP),0x9C9A92,'Konsool – '+lab[k]+' (169 × 80 × 45 mm)',3,[sx*30,0,70])),
+ ...Q.map(async([k,sx,sz])=>add(await stl('kabelaud_pealmine_plaat_'+k,FL(34)),0xEFE6D2,'Pealmine plaat – '+lab[k]+' (1 mm mängupind)',4,[sx*30,95,sz*30])),
+ ...H.map(async([k,sx])=>add(await stl('kabelaud_kaas_'+k,FL(48)),0xD3D1C7,'Kaas – '+lab[k],6,[sx*30,150,70])),
+]);
+const gPiece=await stl('yks_nupp',UP),gCrown=await stl('yks_kroon',UP),gTile=await stl('yks_ruut',UP),gCap=await stl('yks_katteke',UP);
+E.squares.filter(s=>s.d).forEach(s=>{const t=add(gTile,0x8A5A33,'Tume ruut 33 × 33 × 0,6 mm (valikuline)',5,[0,120,0]);t.position.set(s.x,34,s.z);t.userData.base.copy(t.position);
+ let col=null;if(s.r<3)col=0xF1EFE8;if(s.r>4)col=0x2C2C2A;if(col){const p=add(gPiece,col,'Nupp Ø 28 × 7 mm, põhjas magnet Ø 6 × 2',7,[0,190,0]);p.position.set(s.x,34.6,s.z);p.userData.base.copy(p.position);}});
+[[2,2,0xF1EFE8],[5,5,0x2C2C2A]].forEach(([f,r,col])=>{const s=E.squares.find(q=>q.f===f&&q.r===r);});
+// kaks tammi näitena (kroon nupu peal)
+[[0,2],[7,5]].forEach(([f,r])=>{const s=E.squares.find(q=>q.f===f&&q.r===r);const c=add(gCrown,0xFAC775,'Tammi kroon Ø 31 mm – pannakse nupu peale',7,[0,215,0]);c.position.set(s.x,39.6,s.z);c.userData.base.copy(c.position);});
+E.pos.BXS.forEach(x=>{const c=add(gCap,0x378ADD,'Nupukate Ø 12 mm (flanš kaane all)',6,[30,150,70]);c.rotation.x=Math.PI;c.position.set(x,50.5,E.pos.BZ);c.userData.base.copy(c.position);});
+// --- kruvid
+const BO=new THREE.Group();S.add(BO);
+function bolt(a,b,r,step,off,name){const v=new THREE.Vector3(...b).sub(new THREE.Vector3(...a));const len=v.length();const g=new THREE.CylinderGeometry(r,r,len,12);const m=new THREE.Mesh(g,mat(0x5F5E5A,{metalness:0.5,roughness:0.35}));
+ m.position.set((a[0]+b[0])/2,(a[1]+b[1])/2,(a[2]+b[2])/2);m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),v.clone().normalize());m.userData={n:name,step,off:new THREE.Vector3(...off),base:m.position.clone(),bolt:true};BO.add(m);parts.push(m);pick.push(m);}
+[-120,-50,50,120].forEach(z=>bolt([-9,7,z],[9,7,z],1.5,1,[0,0,0],'M3 × 16 kruvi + mutter (laua veerandite liide)'));
+[-150,-50,50,150].forEach(x=>bolt([x,7,-9],[x,7,9],1.5,1,[0,0,0],'M3 × 16 kruvi + mutter (laua veerandite liide)'));
+[-150,-20,45,110].forEach(x=>bolt([x,7,D.OUT-9],[x,7,D.OUT+9],1.5,3,[0,0,35],'M3 × 16 kruvi + mutter (konsool lauale)'));
+[160,200].forEach(z=>bolt([-9,7,z],[9,7,z],1.5,3,[0,0,70],'M3 × 16 kruvi + mutter (konsooli pooled)'));
+[[-155,150],[-75,214],[-12,150],[-12,214],[12,150],[12,214],[155,150],[155,214]].forEach(([x,z])=>bolt([x,36,z],[x,49,z],1.5,6,[Math.sign(x)*30,150,70],'M3 × 12 peitpeakruvi (kaas konsooli külge)'));
+// --- elektroonika
+const EL=new THREE.Group();S.add(EL);
+function eb(b,step,off,col){const m=new THREE.Mesh(new THREE.BoxGeometry(b.x1-b.x0,b.y1-b.y0,b.z1-b.z0),mat(col||b.col));m.position.set((b.x0+b.x1)/2,(b.y0+b.y1)/2,(b.z0+b.z1)/2);m.userData={n:b.n,step,off:new THREE.Vector3(...off),base:m.position.clone()};EL.add(m);parts.push(m);pick.push(m);}
+E.boxes.forEach(b=>{if(b.c==='mcp')eb(b,2,[0,0,b.z0<0?-30:30]);else if(b.lid)eb(b,6,[30,150,70]);else eb(b,3,[-30,0,70]);});
+(function(){const A=E.ard;const sh=new THREE.Shape();A.outline.forEach((p,i)=>i?sh.lineTo(p[0],p[1]):sh.moveTo(p[0],p[1]));const g=new THREE.ExtrudeGeometry(sh,{depth:A.t,bevelEnabled:false});const m=new THREE.Mesh(g,mat(0x00649A));m.rotation.x=Math.PI/2;m.position.y=A.y+A.t;
+ const grp=new THREE.Group();grp.add(m);grp.userData={n:'Arduino UNO R4 WiFi (korpuses)',step:3,off:new THREE.Vector3(-30,0,70),base:new THREE.Vector3()};EL.add(grp);parts.push(grp);m.userData.n='Arduino UNO R4 WiFi';pick.push(m);})();
+(function(){const P=E.strip.map(p=>new THREE.Vector3(...p));const pos=[],idx=[];const up=new THREE.Vector3(0,1,0);
+ for(let i=0;i<P.length;i++){const t=(i<P.length-1?P[i+1].clone().sub(P[i]):P[i].clone().sub(P[i-1])).normalize();let w=new THREE.Vector3().crossVectors(t,up);if(w.length()<0.1)w.set(1,0,0);w.normalize().multiplyScalar(5);const a=P[i].clone().add(w),b=P[i].clone().sub(w);pos.push(a.x,a.y,a.z,b.x,b.y,b.z);if(i<P.length-1){const k=i*2;idx.push(k,k+1,k+2,k+1,k+3,k+2);}}
+ const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.setIndex(idx);g.computeVertexNormals();
+ const grp=new THREE.Group();const m=new THREE.Mesh(g,mat(0x2C2C2A));m.userData.n='LED-riba: üks tükk, 160 LED-i – klõpsatakse pealmise plaadi klambritesse';grp.add(m);pick.push(m);
+ E.leds.forEach(l=>{const b=new THREE.Mesh(new THREE.BoxGeometry(5,1.6,5),mat(0xFFFFFF,{emissive:0xFAC775,emissiveIntensity:0.4}));b.position.set(l.x,l.y+1,l.z);grp.add(b);});
+ E.reeds.forEach(r=>{const c=new THREE.Mesh(new THREE.CylinderGeometry(1,1,10.5,12),mat(0x85B7EB,{transparent:true,opacity:0.85}));c.rotation.z=Math.PI/2;c.position.set((r.x0+r.x1)/2,r.y,r.z);c.userData.n='Reed-lüliti '+r.n+' – pannakse pealmise plaadi juhikusse';grp.add(c);pick.push(c);});
+ grp.userData={n:'LED-riba ja reed-lülitid',step:4,off:new THREE.Vector3(0,60,0),base:new THREE.Vector3()};EL.add(grp);parts.push(grp);})();
+const WC={sig:0x1D9E75,gnd:0x2C2C2A,v5:0xE24B4A,sda:0x378ADD,scl:0xEF9F27,led:0x7F77DD,sig2:0x97C459};
+const WG=new THREE.Group();E.wires.forEach(w=>{const path=new THREE.CurvePath();for(let i=0;i<w.p.length-1;i++){const a=new THREE.Vector3(...w.p[i]),b=new THREE.Vector3(...w.p[i+1]);if(a.distanceTo(b)>0.01)path.add(new THREE.LineCurve3(a,b));}
+ if(path.curves.length){const m=new THREE.Mesh(new THREE.TubeGeometry(path,path.curves.length*3,0.4,5,false),mat(WC[w.k]||0x888780));m.userData.n=w.l||'juhe';WG.add(m);pick.push(m);}});
+WG.userData={n:'juhtmed',step:2,off:new THREE.Vector3(0,0,0),base:new THREE.Vector3(),wires:true};EL.add(WG);parts.push(WG);
+document.getElementById('load').remove();
+// --- sammud
+const STEPS=[
+ ['Laua alus','<ul><li>Pane 4 alusveerandit kokku nii, et liiteklotsid jäävad vastakuti.</li><li>Kinnita iga liiteklotside paar <b>M3 × 16 kruvi ja mutriga</b> (8 tk).</li><li>Liitekohad jäävad täpselt ruutude servadele.</li></ul>'],
+ ['Elektroonika laua sisse','<ul><li>Pane mõlemad MCP23017 moodulid oma hälli (piikribad üleval). #1 on ridade 2–3 all, #2 ridade 6–7 all.</li><li>Veda juhtmed: reed-lülitite signaalid kogunevad vasakusse serva ja lähevad sealt MCP-ni, GND jookseb igas reas eraldi juhtmena.</li></ul>'],
+ ['Konsool','<ul><li>Pane 2 konsoolipoolt kokku (2 × M3) ja kinnita laua esiserva külge (4 × M3).</li><li>Aseta Arduino korpusega vasakusse pessa nii, et USB-C ja toitepesa jäävad seina avade kohale.</li><li>Pane jaotusplaat tugijalgadele ja ühenda MCP-de, LED-riba ja reed-lülitite juhtmed.</li></ul>'],
+ ['Pealmine plaat','<ul><li>Pööra plaadi veerandid tagurpidi ja pane igasse juhikusse reed-lüliti (klaasi ots ruudu keskel).</li><li>Klõpsa LED-riba heledate ruutude all olevatesse klambritesse; rea lõpus jääb aas pöördetaskusse.</li><li>Aseta 4 veerandit laua seinte peale, asetusäär hoiab neid paigal.</li></ul>'],
+ ['Tumedad ruudud','<ul><li>Valikuline: liimi 32 kontrastvärvi ruutu tumedatele ruutudele.</li><li>Nupud on ainult tumedatel ruutudel, seega on kõik nupud ühel kõrgusel.</li></ul>'],
+ ['Kaas, LCD ja nupud','<ul><li>Lükka LCD raam kaane aknasse ja kinnita 4 × M2,5 kruviga.</li><li>Pane 3 nupukatet aukudesse ja kruvi nupuplaat (2 × M2,5) nende alla.</li><li>Kinnita mõlemad kaanepooled 8 × M3 × 12 peitpeakruviga konsooli puksidesse.</li></ul>'],
+ ['Nupud ja kroonid','<ul><li>24 nuppu kahes värvis, igas põhjas Ø 6 × 2 mm magnet.</li><li>Tammiks saanud nupu peale pannakse kroon.</li><li>Valmis! Laud on 338 × 288 mm, konsool 80 mm.</li></ul>']];
+let step=STEPS.length;const SE=document.getElementById('steps');
+STEPS.forEach((s,i)=>{const b=document.createElement('button');b.className='st';b.innerHTML='<b>'+(i+1)+'</b><span>'+s[0]+'</span>';b.onclick=()=>setStep(i+1);SE.appendChild(b);});
+function setStep(n){step=n;[...SE.children].forEach((b,i)=>b.classList.toggle('on',i+1===n));document.getElementById('desc').innerHTML='<b>Samm '+n+': '+STEPS[n-1][0]+'</b>'+STEPS[n-1][1];
+ parts.forEach(p=>{const u=p.userData;let vis=u.step<=n;if(EL.children.includes(p)||p===WG)vis=vis&&document.getElementById('el').checked;if(u.bolt)vis=vis&&document.getElementById('bo').checked;p.visible=vis;
+  const hl=u.step===n;(p.isMesh?[p]:[]).forEach(m=>{if(m.material&&m.material.emissive&&!u.bolt){m.material.emissive.setHex(hl?0x185FA5:0x000000);m.material.emissiveIntensity=hl?0.18:0;}});});}
+document.getElementById('pv').onclick=()=>setStep(Math.max(1,step-1));document.getElementById('nx').onclick=()=>setStep(Math.min(STEPS.length,step+1));
+document.getElementById('el').onchange=()=>setStep(step);document.getElementById('bo').onchange=()=>setStep(step);
+let exT=0.6,ex=0.6;document.getElementById('ex').oninput=e=>exT=e.target.value/100;
+setStep(STEPS.length);
+// --- kaamera
+let ry=-0.7,rx=0.6,dist=1150,tgt=new THREE.Vector3(0,60,40),auto=false;const rtb=document.getElementById('rt');rtb.onclick=()=>{auto=!auto;rtb.textContent=auto?'Peata':'Pööra';};
+const V={iso:[-0.7,0.6,1150],top:[0,1.5,1000],side:[-1.57,0.15,1000]};document.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{[ry,rx,dist]=V[b.dataset.v];});
+const P=new Map();let px=0,py=0,moved=0,pinch=0;
+W.addEventListener('pointerdown',e=>{P.set(e.pointerId,[e.clientX,e.clientY]);px=e.clientX;py=e.clientY;moved=0;W.setPointerCapture(e.pointerId);});
+W.addEventListener('pointermove',e=>{if(!P.has(e.pointerId))return;P.set(e.pointerId,[e.clientX,e.clientY]);if(P.size===2){const [a,b]=[...P.values()];const d=Math.hypot(a[0]-b[0],a[1]-b[1]);if(pinch)dist=Math.max(150,Math.min(2500,dist*pinch/d));pinch=d;moved=99;return;}
+ const dx=e.clientX-px,dy=e.clientY-py;moved+=Math.abs(dx)+Math.abs(dy);ry-=dx*0.007;rx=Math.max(0.05,Math.min(1.55,rx+dy*0.005));px=e.clientX;py=e.clientY;});
+const ray=new THREE.Raycaster();
+W.addEventListener('pointerup',e=>{P.delete(e.pointerId);pinch=0;if(moved<5){const r=W.getBoundingClientRect();ray.setFromCamera({x:(e.clientX-r.left)/r.width*2-1,y:-(e.clientY-r.top)/r.height*2+1},C);
+ const h=ray.intersectObjects(pick.filter(m=>{let o=m;while(o){if(!o.visible)return false;o=o.parent;}return true;}),false);INFO.textContent=h.length?(h[0].object.userData.n||'osa'):'Klõpsa osal.';}});
+W.addEventListener('wheel',e=>{e.preventDefault();dist=Math.max(150,Math.min(2500,dist*(1+e.deltaY*0.001)));},{passive:false});
+addEventListener('resize',()=>{sz();C.aspect=W.clientWidth/W.clientHeight;C.updateProjectionMatrix();});
+(function a(){requestAnimationFrame(a);if(auto)ry+=0.003;ex+=(exT-ex)*0.12;parts.forEach(p=>{const u=p.userData;p.position.copy(u.base).addScaledVector(u.off,ex);});
+ C.position.set(tgt.x+Math.sin(ry)*Math.cos(rx)*dist,tgt.y+Math.sin(rx)*dist,tgt.z+Math.cos(ry)*Math.cos(rx)*dist);C.lookAt(tgt);R.render(S,C);})();
+})();
+</script></body></html>
