@@ -100,6 +100,8 @@ Kõik 3D-prinditavad osad (STL) on kaustas [`hardware/3d/`](hardware/3d/) ja nee
 | Nupud (12 tk failis, prinditakse 2 värvis) | 24 | Ø 28 × 7 |
 | Tammi kroonid / nupukatted / tumedad ruudud | 8 / 3 / 32 | – |
 | Proovitükid (ruut + nupp anduri testimiseks) | – | [`hardware/3d/proovitukid/`](hardware/3d/proovitukid/) |
+| **Terve laud ühes failis (1:1)** – vaatamiseks / suure printeri jaoks | 1 | 338 × 368 × 48 · [`hardware/3d/terve/`](hardware/3d/terve/) |
+| Näidismudel 1:2, prindib ühes tükis | 1 | 169 × 184 × 25 |
 
 ## 6. Ühendusskeem
 
@@ -186,6 +188,7 @@ kui nupu loendur muutus -> uus mäng / vihje / AI sisse-välja
 - **Laud:** 338 × 288 × 34 mm, mänguväli 268 × 268 mm, ruut 33,5 mm. Külgedel 30 mm pöördetaskud LED-riba aasade jaoks.
 - **Kihid laua sees (alt üles):** põhi 0–2 mm · MCP23017 hällid · juhtmed ~27 mm · LED-riba 29–31 mm · reed-lülitid 31–33 mm · pealmine plaat 33–34 mm (1 mm mängupind, magnet sulgeb reed-lüliti läbi selle).
 - **Pealmise plaadi all:** ribid ridade vahel (toetuvad sammastele), reed-lülitite juhikud (klaasi üks ots ruudu keskel) ja LED-riba klambrid heledate ruutude all.
+- **LED-avad:** iga tumeda ruudu keskel on Ø 7 mm ava otse LED-i kohal (ka tumedates kontrastruutudes), nii et valgus paistab läbi. Nupp katab ava, kui see ruudul seisab.
 - **Konsool:** 338 × 80 × 48 mm, laua ees. Laua ja konsooli vahel vaheseina pole; pealmise plaadi esiserv toetub tugipostidele. Vasakul seinas USB-C ja toitepesa ava, paremal kaanes LCD aken ja 3 nuppu.
 - **Liited:** veerandid ja konsooli pooled kinnitatakse liiteklotside kaudu M3 kruvidega; liitekohad on ruutude servadel.
 
@@ -198,7 +201,8 @@ README.md                          see dokumentatsioon
 hardware/wiring-diagram.png/.svg   ühendusskeem
 hardware/ruutude-kaart.png/.svg    ruutude, andurite ja LED-ide numeratsioon
 hardware/koostejoonis-1-1-A4.pdf   1:1 koostejoonis (4 A4 lehte + kaaneleht)
-hardware/3d/                       16 STL-faili + PRINDIJUHEND.txt
+hardware/3d/                       16 STL-faili (tükid) + PRINDIJUHEND.txt
+hardware/3d/terve/                 terve laud ühes failis (1:1) ja näidismudel 1:2
 hardware/3d/proovitukid/           proovitükid anduri ja magneti testimiseks
 docs/3d-koostemudel.html           interaktiivne 3D-koostemudel
 docs/uhendusskeem.html             interaktiivne ühendusskeem koos ehitusjuhistega

@@ -30,6 +30,7 @@ class Part:
 def ring(p,x0,x1,z0,z1,t,y0,y1):
     p.box(x0-t,x1+t,y0,y1,z0-t,z0); p.box(x0-t,x1+t,y0,y1,z1,z1+t); p.box(x0-t,x0,y0,y1,z0,z1); p.box(x1,x1+t,y0,y1,z0,z1)
 M3=1.7
+LED_R=3.5   # LED-ava raadius pealmises plaadis ja tumedates ruutudes
 # ---------------- LAUD (põhi) ----------------
 def board_base(p):
     p.box(-OX,OX,0,2,-OUT,OUT)                              # põhi
@@ -63,6 +64,8 @@ def top_plate(p):
     p.box(-OX+6.8,OX-6.8,31,TOPY0,-HB+0.3,-HB+1.8)                          # asetusäär tagaseina ees
     for r in G['reeds']:                                    # reed-lüliti juhikud
         for sz in(-1,1): p.box(r['x0']-0.5,r['x1']+0.5,31,TOPY0,r['z']+sz*1.2,r['z']+sz*2.2)
+    for r in G['reeds']:                                    # LED-ava iga tumeda ruudu keskel (Ø 7 mm)
+        p.vcyl(r['x0'],r['z'],TOPY0-1.2,TOPY1+0.5,LED_R,'-')
     for r in range(8):                                      # LED-riba klambrid heledate ruutude all
         z=rz(r)
         for f in range((r+1)%2,8,2):
@@ -72,7 +75,8 @@ def top_plate(p):
                 p.box(x-3,x+3,28.2,29.0,z+sz*4.6,z+sz*5.4)
 def tiles():
     p=Part('kabelaud_tumedad_ruudud_32tk')
-    for i in range(32): x=(i%6)*36; z=(i//6)*36; p.box(x,x+33,0,0.6,z,z+33)
+    for i in range(32):
+        x=(i%6)*36; z=(i//6)*36; p.box(x,x+33,0,0.6,z,z+33); p.vcyl(x+16.5,z+16.5,-0.1,0.7,LED_R,'-')
     return p.save()
 # ---------------- KONSOOL ----------------
 ARD=[b for b in G['boxes'] if b['n'].startswith('Arduino korpus')][0]

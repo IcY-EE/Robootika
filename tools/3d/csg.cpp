@@ -32,7 +32,7 @@ int main(int argc,char**argv){
   Manifold r=Manifold::BatchBoolean(add,OpType::Add);
   if(!sub.empty()) r=r-Manifold::BatchBoolean(sub,OpType::Add);
   for(auto&m:inter) r=r^m;
-  auto bb=r.BoundingBox();r=r.Translate({-bb.min.x,-bb.min.y,-bb.min.z});
+  auto bb=r.BoundingBox();if(!(argc>3&&std::string(argv[3])=="raw"))r=r.Translate({-bb.min.x,-bb.min.y,-bb.min.z});
   MeshGL mg=r.GetMeshGL();size_t nt=mg.triVerts.size()/3;int np=mg.numProp;
   std::ofstream o(argv[2],std::ios::binary);char hdr[80]={0};snprintf(hdr,80,"AI-kabelaud %s",argv[2]);o.write(hdr,80);uint32_t n32=nt;o.write((char*)&n32,4);
   for(size_t i=0;i<nt;i++){float v[12]={0};float P[3][3];for(int k=0;k<3;k++){int vi=mg.triVerts[3*i+k];for(int j=0;j<3;j++)P[k][j]=mg.vertProperties[vi*np+j];}
