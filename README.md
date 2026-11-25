@@ -131,7 +131,7 @@ Interaktiivne versioon koos ehitusjuhistega: [`docs/uhendusskeem.html`](docs/uhe
 
 - **Reed-lülitid:** iga lüliti üks jalg MCP sisendisse, teine ühisele GND-juhtmele. Sisemised pull-up takistid on sees, lisatakisteid pole vaja.
 - **Ruudu ja anduri number:** `andur = rida × 4 + veerg / 2` (rida 0–7 = read 1–8, veerg 0–7 = a–h). Näiteks a1 = 0, c1 = 1, b2 = 4, h8 = 31.
-- **LED-riba** on üks pidev tükk. Rea lõpus teeb see laua külgmises 30 mm pöördetaskus pehme aasa (~82 mm, 9 LED-i sammu) ja jätkub järgmises reas vastassuunas. Tumeda ruudu LED-i number on `21 × rida + 4 × k`, kus k on tumeda ruudu järjekorranumber reas riba suunas. Näiteks a1 = 0, h2 = 21, c3 = 46, b8 = 159.
+- **LED-riba** on üks pidev tükk. Rea lõpus teeb see laua külgmises 30 mm pöördetaskus pehme aasa (~82 mm, 9 LED-i sammu) ja jätkub järgmises reas vastassuunas. Riba ei jookse rea keskel, vaid 10,5 mm mängija pool, nii et iga tumeda ruudu LED jääb ruudu nurka ja nupp seda ei kata. Tumeda ruudu LED-i number on `21 × rida + 4 × k`, kus k on tumeda ruudu järjekorranumber reas riba suunas. Näiteks a1 = 0, h2 = 21, c3 = 46, b8 = 159.
 - **Toide:** kogu süsteem saab toite Arduino USB-C kaudu (laadija 5 V, ≥ 2 A). 1000 µF kondensaator on jaotusplaadil 5V ja GND vahel.
 
 ![Ruutude, andurite ja LED-ide kaart](hardware/ruutude-kaart.png)
@@ -189,7 +189,7 @@ kui nupu loendur muutus -> uus mäng / vihje / AI sisse-välja
 - **Laud:** 338 × 288 × 34 mm, mänguväli 268 × 268 mm, ruut 33,5 mm. Külgedel 30 mm pöördetaskud LED-riba aasade jaoks.
 - **Kihid laua sees (alt üles):** põhi 0–2 mm · MCP23017 hällid · juhtmed ~27 mm · LED-riba 29–31 mm · reed-lülitid 31–33 mm · pealmine plaat 33–34 mm (1 mm mängupind, magnet sulgeb reed-lüliti läbi selle).
 - **Pealmise plaadi all:** ribid ridade vahel (toetuvad sammastele), reed-lülitite juhikud (klaasi üks ots ruudu keskel) ja LED-riba klambrid heledate ruutude all.
-- **LED-avad:** iga tumeda ruudu keskel on Ø 4 mm ava otse LED-i kohal (ka tumedates kontrastruutudes), nii et valgus paistab läbi. Nupp katab ava, kui see ruudul seisab.
+- **LED-avad:** iga tumeda ruudu nurgas on Ø 4 mm ava otse LED-i kohal (ka tumedates kontrastruutudes). Ava on keskest 13,5 mm riba suunas ja 10,5 mm mängija poole (~17 mm keskest), seega nupp (Ø 28) ega kroon (Ø 31) ei kata seda ja LED paistab ka nupu kõrvalt. Ridades 1, 3, 5, 7 on ava ruudu paremas, ridades 2, 4, 6, 8 vasakus nurgas.
 - **Konsool:** 338 × 80 × 48 mm, laua ees. Laua ja konsooli vahel vaheseina pole; pealmise plaadi esiserv toetub tugipostidele. Vasakul seinas USB-C ja toitepesa ava, paremal kaanes LCD aken ja 3 nuppu.
 - **Liited:** laua veerandid ja konsooli pooled **liimitakse** kokku. Liiteklotside augud koos prinditud tihvtidega joondavad osad täpselt; liitekohad on ruutude servadel. Pealmine plaat ja kaas jäävad eemaldatavaks (kaas 8 × M3 × 12 kruviga), et elektroonikale pääseks ligi.
 
@@ -204,7 +204,7 @@ Samm-sammuline kokkupanekumudel päris STL-failidega (7 sammu, osad saab liuguri
 2. **Elektroonika laua sisse:** MCP23017 moodulid hällidesse, juhtmed.
 3. **Konsool:** 2 poolt liimiga kokku ja laua külge (tihvtidega), Arduino pessa, jaotusplaat.
 4. **Pealmine plaat:** reed-lülitid juhikutesse, LED-riba klambritesse, veerandid seinte peale.
-5. **Tumedad ruudud** (valikuline): liimida LED-avad kohakuti.
+5. **Tumedad ruudud** (valikuline): liimida LED-avad kohakuti. Ridades 2, 4, 6, 8 pööra ruut tagurpidi.
 6. **Kaas:** LCD (4 × M2,5), nupukatted ja nupuplaat (2 × M2,5), kaas konsooli külge (8 × M3 × 12).
 7. **Nupud ja kroonid.**
 

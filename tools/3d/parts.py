@@ -64,19 +64,21 @@ def top_plate(p):
     p.box(-OX+6.8,OX-6.8,31,TOPY0,-HB+0.3,-HB+1.8)                          # asetusäär tagaseina ees
     for r in G['reeds']:                                    # reed-lüliti juhikud
         for sz in(-1,1): p.box(r['x0']-0.5,r['x1']+0.5,31,TOPY0,r['z']+sz*1.2,r['z']+sz*2.2)
-    for r in G['reeds']:                                    # LED-ava iga tumeda ruudu keskel (Ø 7 mm)
-        p.vcyl(r['x0'],r['z'],TOPY0-1.2,TOPY1+0.5,LED_R,'-')
+    for h in G['ledholes']:                                 # LED-ava tumeda ruudu nurgas (Ø 4 mm), nupust väljas
+        p.vcyl(h['x'],h['z'],TOPY0-1.2,TOPY1+0.5,LED_R,'-')
     for r in range(8):                                      # LED-riba klambrid heledate ruutude all
-        z=rz(r)
+        z=rz(r)+D['LED_DZ']                                 # riba keskjoon
         for f in range((r+1)%2,8,2):
             x=fx(f)
             for sz in(-1,1):
                 p.box(x-3,x+3,28.2,TOPY0,z+sz*5.4,z+sz*6.4)
                 p.box(x-3,x+3,28.2,29.0,z+sz*4.6,z+sz*5.4)
 def tiles():
+    # ava nurgas: ridades 1,3,5,7 nagu prinditud, ridades 2,4,6,8 ruut tagurpidi (peegelpilt)
     p=Part('kabelaud_tumedad_ruudud_32tk')
     for i in range(32):
-        x=(i%6)*36; z=(i//6)*36; p.box(x,x+33,0,0.6,z,z+33); p.vcyl(x+16.5,z+16.5,-0.1,0.7,LED_R,'-')
+        x=(i%6)*36; z=(i//6)*36; p.box(x,x+33,0,0.6,z,z+33); p.vcyl(x+16.5+D['LED_DX'],z+16.5+D['LED_DZ'],-0.1,0.7,LED_R,'-')
+    q=Part('yks_ruut'); q.box(-16.5,16.5,0,0.6,-16.5,16.5); q.vcyl(D['LED_DX'],D['LED_DZ'],-0.1,0.7,LED_R,'-'); q.save()
     return p.save()
 # ---------------- KONSOOL ----------------
 ARD=[b for b in G['boxes'] if b['n'].startswith('Arduino korpus')][0]

@@ -60,7 +60,7 @@ await Promise.all([
  ...H.map(async([k,sx])=>add(await stl('kabelaud_kaas_'+k,FL(48)),0xD3D1C7,'Kaas – '+lab[k],6,[sx*30,150,70])),
 ]);
 const gPiece=await stl('yks_nupp',UP),gCrown=await stl('yks_kroon',UP),gTile=await stl('yks_ruut',UP),gCap=await stl('yks_katteke',UP);
-E.squares.filter(s=>s.d).forEach(s=>{const t=add(gTile,0x8A5A33,'Tume ruut 33 × 33 × 0,6 mm (valikuline)',5,[0,120,0]);t.position.set(s.x,34,s.z);t.userData.base.copy(t.position);
+E.squares.filter(s=>s.d).forEach(s=>{const t=add(gTile,0x8A5A33,'Tume ruut 33 × 33 × 0,6 mm (valikuline)',5,[0,120,0]);t.position.set(s.x,34,s.z);if(s.r%2)t.scale.x=-1;t.userData.base.copy(t.position);
  let col=null;if(s.r<3)col=0xF1EFE8;if(s.r>4)col=0x2C2C2A;if(col){const p=add(gPiece,col,'Nupp Ø 28 × 7 mm, põhjas magnet Ø 6 × 2',7,[0,190,0]);p.position.set(s.x,34.6,s.z);p.userData.base.copy(p.position);}});
 [[2,2,0xF1EFE8],[5,5,0x2C2C2A]].forEach(([f,r,col])=>{const s=E.squares.find(q=>q.f===f&&q.r===r);});
 // kaks tammi näitena (kroon nupu peal)
@@ -98,8 +98,8 @@ const STEPS=[
  ['Laua alus','<ul><li>Pane 4 alusveerandit kokku nii, et liiteklotsid jäävad vastakuti.</li><li>Kanna liim klotside ja servade puutepindadele, pista <b>liitetihvt</b> läbi vastakuti klotside aukude (8 tk) ja suru kokku.</li><li>Kasuta sekundiliimi (geel) või epoksüt; liimi tasasel laual.</li><li>Liitekohad jäävad täpselt ruutude servadele.</li></ul>'],
  ['Elektroonika laua sisse','<ul><li>Pane mõlemad MCP23017 moodulid oma hälli (piikribad üleval). #1 on ridade 2–3 all, #2 ridade 6–7 all.</li><li>Veda juhtmed: reed-lülitite signaalid kogunevad vasakusse serva ja lähevad sealt MCP-ni, GND jookseb igas reas eraldi juhtmena.</li></ul>'],
  ['Konsool','<ul><li>Liimi 2 konsoolipoolt kokku (2 tihvti) ja liimi konsool laua esiserva külge (4 tihvti).</li><li>Aseta Arduino korpusega vasakusse pessa nii, et USB-C ja toitepesa jäävad seina avade kohale.</li><li>Pane jaotusplaat tugijalgadele ja ühenda MCP-de, LED-riba ja reed-lülitite juhtmed.</li></ul>'],
- ['Pealmine plaat','<ul><li>Pööra plaadi veerandid tagurpidi ja pane igasse juhikusse reed-lüliti (klaasi ots ruudu keskel).</li><li>Klõpsa LED-riba heledate ruutude all olevatesse klambritesse; rea lõpus jääb aas pöördetaskusse.</li><li>Aseta 4 veerandit laua seinte peale, asetusäär hoiab neid paigal.</li></ul>'],
- ['Tumedad ruudud','<ul><li>Valikuline: liimi 32 kontrastvärvi ruutu tumedatele ruutudele.</li><li>Nupud on ainult tumedatel ruutudel, seega on kõik nupud ühel kõrgusel.</li></ul>'],
+ ['Pealmine plaat','<ul><li>Pööra plaadi veerandid tagurpidi ja pane igasse juhikusse reed-lüliti (klaasi ots ruudu keskel).</li><li>Klõpsa LED-riba heledate ruutude all olevatesse klambritesse. Riba jookseb iga rea mängijapoolses servas, nii et iga tumeda ruudu LED jääb ruudu nurka <b>nupust välja</b> ja paistab Ø 4 mm avast. Rea lõpus jääb aas pöördetaskusse.</li><li>Aseta 4 veerandit laua seinte peale, asetusäär hoiab neid paigal.</li></ul>'],
+ ['Tumedad ruudud','<ul><li>Valikuline: liimi 32 kontrastvärvi ruutu tumedatele ruutudele.</li><li>LED-ava on ruudu nurgas: ridades 1, 3, 5, 7 pane ruut nii, nagu see prinditi, ridades 2, 4, 6, 8 pööra ruut tagurpidi, et ava jääks plaadi ava kohale.</li><li>Nupud on ainult tumedatel ruutudel, seega on kõik nupud ühel kõrgusel.</li></ul>'],
  ['Kaas, LCD ja nupud','<ul><li>Lükka LCD raam kaane aknasse ja kinnita 4 × M2,5 kruviga.</li><li>Pane 3 nupukatet aukudesse ja kruvi nupuplaat (2 × M2,5) nende alla.</li><li>Kinnita mõlemad kaanepooled 8 × M3 × 12 peitpeakruviga konsooli puksidesse.</li></ul>'],
  ['Nupud ja kroonid','<ul><li>24 nuppu kahes värvis, igas põhjas Ø 6 × 2 mm magnet.</li><li>Tammiks saanud nupu peale pannakse kroon.</li><li>Valmis! Laud on 338 × 288 mm, konsool 80 mm.</li></ul>']];
 let step=STEPS.length;const SE=document.getElementById('steps');

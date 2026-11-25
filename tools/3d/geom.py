@@ -8,6 +8,10 @@ FILES='abcdefgh'
 fx=lambda f:-HB+SQ*(f+0.5)
 rz=lambda r: HB-SQ*(r+0.5)
 P=2.54; LEDP=1000/60   # LED-ide samm ribal
+# LED ei ole ruudu keskel (jääks nupu alla), vaid ruudu nurgas: riba jookseb rea keskjoonest LED_DZ võrra
+# mängija pool, LED on ruudu keskest LED_DX võrra riba liikumise suunas (paaritud read +x, paaris read -x).
+# Kaugus keskest ~17 mm > nupu raadius 14 mm (ja kroon 15,5 mm), nii et LED-ava jääb nupust välja.
+LED_DX=13.5; LED_DZ=10.5
 Y_TOP=33.0; Y_REED=32.0; Y_LEDB=29.0; Y_WIRE=27.0; Y_MCP=4.0
 def led_index(f,r): return 13*r+(4*(f//2) if r%2==0 else 4*((7-f)//2))
 def sensor(f,r): return r*4+f//2
@@ -38,30 +42,31 @@ def loop_pts(side,z0,z1,a,n=40):
     return [(side*(HB+a*math.sin(t)),Y_LEDB-H_LOOP*math.sin(t),z0+(z1-z0)*(1-math.cos(t))/2) for t in [math.pi*i/n for i in range(n+1)]]
 def plen(pts): return sum(math.dist(pts[i],pts[i+1]) for i in range(len(pts)-1))
 path=[]; s_led0=None; loops=[]
-x_start=fx(0)-LEDP/2
-path.append((x_start,Y_LEDB,rz(0)))
+x_start=fx(0)+LED_DX-LEDP/2
+lz=lambda r: rz(r)+LED_DZ
+path.append((x_start,Y_LEDB,lz(0)))
 cur_s=0.0
 led_first={}   # rea esimese tumeda ruudu LED-i kaarepikkus
 led_first[0]=LEDP/2
 for r in range(8):
-    z=rz(r); d=1 if r%2==0 else -1
+    z=lz(r); d=1 if r%2==0 else -1
     first_s=led_first[r]
     if r==7:
-        end=fx(1)-LEDP/2  # viimane rida lõpeb b8 taga
+        end=fx(1)-LED_DX-LEDP/2  # viimane rida lõpeb b8 LED-i taga
         path.append((end,Y_LEDB,z)); break
     side=d; edge=side*HB
     path.append((edge,Y_LEDB,z))
     s_edge=plen(path)
     N=N_RIGHT if side>0 else N_LEFT
     target=first_s+(12+N)*LEDP            # järgmise rea esimese tumeda LED-i kaarepikkus
-    xn=fx(7) if side>0 else fx(0)          # järgmise rea esimene tume ruut (h või a)
+    xn=fx(7)-LED_DX if side>0 else fx(0)+LED_DX   # järgmise rea esimese tumeda ruudu LED (h või a)
     need=target-s_edge-abs(edge-xn)        # aasa pikkus
     lo,hi=1.0,80.0
     for _ in range(60):
         m=(lo+hi)/2
-        if plen(loop_pts(side,z,rz(r+1),m))<need: lo=m
+        if plen(loop_pts(side,z,lz(r+1),m))<need: lo=m
         else: hi=m
-    lp=loop_pts(side,z,rz(r+1),(lo+hi)/2); loops.append(dict(side=side,a=(lo+hi)/2,len=need,r=r))
+    lp=loop_pts(side,z,lz(r+1),(lo+hi)/2); loops.append(dict(side=side,a=(lo+hi)/2,len=need,r=r))
     path+=lp[1:]
     led_first[r+1]=target
 G['strip_path']=[[round(v,2) for v in q] for q in path]
@@ -86,6 +91,7 @@ for i in range(nled):
     sv=LEDP/2+i*LEDP; p=at(sv); fr=inv.get(i)
     if fr: LEDMAP[FILES[fr[0]]+str(fr[1]+1)]=i
     G['leds'].append(dict(x=round(p[0],2),y=round(p[1],2),z=round(p[2],2),i=i,sq=bool(fr),loop=abs(p[0])>HB+0.5))
+G['ledholes']=[dict(n=FILES[f]+str(r+1),x=round(fx(f)+(LED_DX if r%2==0 else -LED_DX),2),z=round(rz(r)+LED_DZ,2),i=LEDMAP[FILES[f]+str(r+1)]) for (f,r) in dark_s]
 G['ledmap']=LEDMAP; G['nled']=nled; G['strip_len']=round(cum[-1])
 def led_index(f,r): return LEDMAP[FILES[f]+str(r+1)]
 # --- MCP23017 moodulid (21 x 26.5), päis 2 veergu vasakul (GP), 1 veerg paremal (toide/I2C)
@@ -112,7 +118,7 @@ GX=-133.0
 for r in range(8):
     z=rz(r); fs=list(range(r%2,8,2))
     for f in fs:
-        cx=fx(f); wire('gnd',[(cx,Y_REED,z),(cx-2,Y_REED,z),(cx-2,Y_REED,z+6.5),(cx-2,Y_WIRE+0.6,z+6.5),(cx-2,Y_WIRE+0.6,z+9)],'')
+        cx=fx(f); wire('gnd',[(cx,Y_REED,z),(cx-2,Y_REED,z),(cx-2,Y_REED,z+3.5),(cx-2,Y_WIRE+0.6,z+3.5),(cx-2,Y_WIRE+0.6,z+9)],'')   # alla enne LED-riba (riba z+5,5…+15,5)
     wire('gnd',[(fx(fs[-1])-2,Y_WIRE+0.6,z+9),(GX,Y_WIRE+0.6,z+9)],f'GND rida {r+1}')
 wire('gnd',[(GX,Y_WIRE+0.6,rz(7)+9),(GX,Y_WIRE+0.6,HB-2),(GX,6,HB-2),(GX,6,CZ0+6)],'Reed-lülitite ühine GND')
 # --- konsool
@@ -211,6 +217,6 @@ wire('gnd',[(BXS[0]-3,LY-10,BZ-3),(BXS[-1]-3,LY-10,BZ-3)],'nuppude GND')
 wire('gnd',[(BXS[0]-3,LY-10,BZ-3),(BXS[0]-3,30,BZ-3),(tx,30,BZ-3),(tx,30,tz),(tx,YJ,tz)],'Nupud GND → jaotusplaat')
 G['mcp']=[dict(n=m['n'],x=m['x'],z=m['z']) for m in MCP]
 G['pos']=dict(LX=LX,LZ=LZ,BXS=BXS,BZ=BZ,AX=AX,AZ=AZ,JX=JX,JZ=JZ,MCP=[(m['x'],m['z']) for m in MCP])
-G['dims']=dict(OX=OX,POCK=POCK,SQ=SQ,HB=HB,OUT=OUT,BH=BH,CZ0=CZ0,CZ1=CZ1,CH=CH)
+G['dims']=dict(LED_DX=LED_DX,LED_DZ=LED_DZ,OX=OX,POCK=POCK,SQ=SQ,HB=HB,OUT=OUT,BH=BH,CZ0=CZ0,CZ1=CZ1,CH=CH)
 json.dump(G,open('geom.json','w'))
 print(len(G['wires']),'juhet',len(G['boxes']),'kasti')

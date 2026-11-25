@@ -7,7 +7,7 @@ kabelaud_alus_vasak_taga / parem_taga         1+1  169 x 144 x 33     põhi, sei
 kabelaud_alus_vasak_ees / parem_ees           1+1  169 x 144 x 33     esiserv ilma seinata (tugipostid)
 kabelaud_pealmine_plaat_* (4 tk)              4    169 x 144 x 5,8    MÄNGUPIND ALL vastu alust (sile pind),
                                                                       ribid, reed-juhikud ja LED-klambrid üleval;
-                                                                      igal tumedal ruudul Ø 4 mm LED-ava
+                                                                      igal tumedal ruudul Ø 4 mm LED-ava (ruudu nurgas)
 kabelaud_konsool_vasak / parem                1+1  169 x 80 x 45      vasakul USB-C ja toitepesa ava
 kabelaud_kaas_vasak / parem                   1+1  169 x 80 x 13,8    pealispind all; paremal LCD aken ja nupuaugud
 kabelaud_nupud_12tk_D28                       2x   Ø28 x 7            prindi 2 korda kahes värvis (12 + 12)
@@ -15,7 +15,8 @@ kabelaud_kroonid_8tk                          1    Ø31 x 6            tammi kro
 kabelaud_nupukatted_3tk                       1    Ø12 / Ø15 x 7      nupukatted (Uus mäng, Vihje, AI)
 kabelaud_liitetihvtid_16tk                    1    Ø 3,2 x 17         liitetihvtid (14 + 2 varu), prinditakse pikali
 kabelaud_tumedad_ruudud_32tk                  1    33 x 33 x 0,6      valikuline: kontrastvärvi ruudud (Ø 4 mm LED-avaga),
-                                                                      liimitakse tumedatele ruutudele, avad kohakuti
+                                                                      liimitakse tumedatele ruutudele, avad kohakuti;
+                                                                      ridades 2, 4, 6, 8 pööra ruut tagurpidi
 
 TERVE LAUD ÜHES FAILIS (kaust terve/)
 kabelaud_terve_laud_1-1.stl                   1    338 x 368 x 48     kõik osad kokkupandult ühes failis (1:1).
@@ -24,7 +25,10 @@ kabelaud_terve_laud_1-1.stl                   1    338 x 368 x 48     kõik osad
 kabelaud_naidismudel_1-2.stl                  1    169 x 184 x 25     täis näidismudel mõõtkavas 1:2, prindib ühes
                                                                       tükis ilma tugedeta (elektroonikata)
 
-LED-AVAD: Ø 4 mm ava on iga tumeda ruudu keskel otse LED-i kohal. Nupp katab ava, kui ta ruudul on.
+LED-AVAD: Ø 4 mm ava on iga tumeda ruudu NURGAS otse LED-i kohal (keskest 13,5 mm riba suunas ja
+10,5 mm mängija poole, ~17 mm keskest). Nupp Ø 28 ja kroon Ø 31 ei kata ava, nii et LED paistab ka
+siis, kui nupp on ruudul. Ridades 1, 3, 5, 7 on ava ruudu paremas, ridades 2, 4, 6, 8 vasakus nurgas.
+Tumedad kontrastruudud: ridades 1, 3, 5, 7 nagu prinditud, ridades 2, 4, 6, 8 tagurpidi.
 Pehmema valguse jaoks võib avasse liimida tüki valget/läbipaistvat 0,4 mm prinditud kilet.
 
 SOOVITUSLIKUD SEADED (PLA)

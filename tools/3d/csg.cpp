@@ -14,6 +14,12 @@
 #include <vector>
 #include <cstdint>
 using namespace manifold;
+// manifold >= 3.x: Cylinder võtab CircularQuality; vanemad versioonid int-i
+#if __has_include(<manifold/common.h>)
+static CircularQuality QS(int s){CircularQuality q;q.segments=s;return q;}
+#else
+static int QS(int s){return s;}
+#endif
 int main(int argc,char**argv){
   if(argc<3){std::cerr<<"csg in.csg out.stl\n";return 1;}
   std::ifstream in(argv[1]);std::string line;std::vector<Manifold> add,sub,inter;
@@ -21,9 +27,9 @@ int main(int argc,char**argv){
     if(line.empty()||line[0]=='#')continue;std::istringstream ss(line);std::string op,t;ss>>op>>t;Manifold m;
     if(t=="B"){double a[6];for(auto&v:a)ss>>v;m=Manifold::Cube({a[3]-a[0],a[4]-a[1],a[5]-a[2]}).Translate({a[0],a[1],a[2]});}
     else if(t=="C"||t=="K"){double x,y,z0,z1,r0,r1;int seg=48;ss>>x>>y>>z0>>z1>>r0;if(t=="K")ss>>r1;else r1=r0;if(!(ss>>seg))seg=48;
-      m=Manifold::Cylinder(z1-z0,r0,r1,seg).Translate({x,y,z0});}
-    else if(t=="X"){double y,z,x0,x1,r;int seg=32;ss>>y>>z>>x0>>x1>>r;if(!(ss>>seg))seg=32;m=Manifold::Cylinder(x1-x0,r,r,seg).Rotate(0,90,0).Translate({x0,y,z});}
-    else if(t=="Y"){double x,z,y0,y1,r;int seg=32;ss>>x>>z>>y0>>y1>>r;if(!(ss>>seg))seg=32;m=Manifold::Cylinder(y1-y0,r,r,seg).Rotate(-90,0,0).Translate({x,y0,z});}
+      m=Manifold::Cylinder(z1-z0,r0,r1,QS(seg)).Translate({x,y,z0});}
+    else if(t=="X"){double y,z,x0,x1,r;int seg=32;ss>>y>>z>>x0>>x1>>r;if(!(ss>>seg))seg=32;m=Manifold::Cylinder(x1-x0,r,r,QS(seg)).Rotate(0,90,0).Translate({x0,y,z});}
+    else if(t=="Y"){double x,z,y0,y1,r;int seg=32;ss>>x>>z>>y0>>y1>>r;if(!(ss>>seg))seg=32;m=Manifold::Cylinder(y1-y0,r,r,QS(seg)).Rotate(-90,0,0).Translate({x,y0,z});}
     else if(t=="P"){double z0,z1;int n;ss>>z0>>z1>>n;SimplePolygon p;for(int i=0;i<n;i++){double x,y;ss>>x>>y;p.push_back({x,y});}
       m=Manifold::Extrude(Polygons{p},z1-z0).Translate({0,0,z0});}
     else {std::cerr<<"tundmatu: "<<line<<"\n";return 2;}
